@@ -66,6 +66,15 @@ class Login extends Component {
             disabled={ isDisabled }
           >
             Play
+          </button>
+        </Link>
+        <Link to="/settings">
+
+          <button
+            type="button"
+            data-testid="btn-settings"
+          >
+            Configurações
 
           </button>
         </Link>
