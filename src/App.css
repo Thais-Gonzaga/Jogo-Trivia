@@ -12,11 +12,11 @@ body {
 }
 
 .correct-color {
-  border: 3.00284px solid rgb(6, 240, 15);
+  border: 0.188rem solid rgb(6, 240, 15);
 }
 
 .wrong-color {
-  border: 3.00284px solid red;
+  border: 0.188rem solid red;
 }
 
 .divButtons {
