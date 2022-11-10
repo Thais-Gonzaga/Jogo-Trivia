@@ -13,6 +13,7 @@ const getTokenApi = async () => {
   const json = await response.json();
 
   const token = json.response_code === 0 && json.token;
+  localStorage.setItem('token', token);
   return getTriviaApi(token);
 };
 
