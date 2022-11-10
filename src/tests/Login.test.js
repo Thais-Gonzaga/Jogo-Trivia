@@ -31,11 +31,9 @@ describe('Testa a página de Login', () => {
     expect(buttonPlay.disabled).toBe(false);
   });
   test(
-    'Se após o clique do botão o pathname muda e existe uma chave token no localStorage ',
+    'Se após o clique do botão existe uma chave token no localStorage ',
     async () => {
-      const { history } = renderWithRouterAndRedux(<Login />);
-
-      expect(history.location.pathname).toBe('/');
+      renderWithRouterAndRedux(<Login />);
 
       const emailInput = screen.getByTestId(inputGravatarEmail);
       const player = screen.getByTestId(inputPlayerName);
@@ -47,8 +45,6 @@ describe('Testa a página de Login', () => {
 
       const tokenLocalStorage = localStorage.getItem('token');
       expect(tokenLocalStorage).not.toBe('null');
-
-      expect(history.location.pathname).toBe('/game');
     },
   );
 });

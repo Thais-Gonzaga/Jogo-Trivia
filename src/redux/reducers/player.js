@@ -1,7 +1,7 @@
 const INITIAL_STATE = {
   name: '',
   assertions: '',
-  score: '0',
+  score: 0,
   gravatarEmail: '',
   questions: [],
   code: 0,
@@ -26,6 +26,13 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       questions: payload.results,
       code: payload.response_code,
+    };
+
+  case 'SCORE':
+    console.log(state.score + payload);
+    return {
+      ...state,
+      score: state.score + payload,
     };
 
   default:
