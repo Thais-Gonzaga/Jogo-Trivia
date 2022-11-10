@@ -28,6 +28,7 @@ class Question extends Component {
     const arr = incorrect;
     arr.push(correct);
     this.shuffleArray(arr);
+    this.shuffleArray(bool);
 
     return (
       <div>
@@ -37,13 +38,24 @@ class Question extends Component {
 
           { type === 'boolean'
             ? bool.map((alternative, index) => (
-              <button
-                key={ index }
-                type="button"
-                name={ alternative }
-              >
-                {alternative}
-              </button>
+              alternative === correct ? (
+                <button
+                  key={ index }
+                  type="button"
+                  data-testid="correct-answer"
+                >
+                  {alternative}
+                </button>
+              )
+                : (
+                  <button
+                    key={ index }
+                    type="button"
+                    data-testid={ `wrong-answer-${index}` }
+                  >
+                    {alternative}
+                  </button>
+                )
             ))
             : (
               arr.map((alternative, index) => (
