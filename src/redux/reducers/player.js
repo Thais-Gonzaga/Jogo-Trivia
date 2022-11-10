@@ -3,6 +3,8 @@ const INITIAL_STATE = {
   assertions: '',
   score: '0',
   gravatarEmail: '',
+  questions: [],
+  code: 0,
 };
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
@@ -16,6 +18,14 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       name: payload,
+    };
+
+  case 'QUESTION':
+    // console.log(payload);
+    return {
+      ...state,
+      questions: payload.results,
+      code: payload.response_code,
     };
 
   default:

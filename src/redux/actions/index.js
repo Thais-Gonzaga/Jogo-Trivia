@@ -1,4 +1,4 @@
-// import getTokenApi from '../../services/getTriviaApi';
+import { getTriviaApi } from '../../services/getTriviaApi';
 
 export default function submitAction(typeAction, value) {
   return {
@@ -6,3 +6,9 @@ export default function submitAction(typeAction, value) {
     payload: value,
   };
 }
+
+export const fetchData = () => async (dispatch) => {
+  const token = localStorage.getItem('token');
+  const response = await getTriviaApi(token);
+  dispatch(submitAction('QUESTION', response));
+};

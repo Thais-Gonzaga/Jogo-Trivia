@@ -61,16 +61,16 @@ class Login extends Component {
           data-testid="input-player-name"
           onChange={ this.handleChange }
         />
-        <Link to="/game">
-          <button
-            type="button"
-            data-testid="btn-play"
-            onClick={ this.handleClick }
-            disabled={ isDisabled }
-          >
-            Play
-          </button>
-        </Link>
+
+        <button
+          type="button"
+          data-testid="btn-play"
+          onClick={ this.handleClick }
+          disabled={ isDisabled }
+        >
+          Play
+        </button>
+
         <Link to="/settings">
 
           <button
