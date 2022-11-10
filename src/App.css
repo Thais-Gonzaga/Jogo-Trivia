@@ -66,3 +66,16 @@ body {
     transform: translate3d(4px, 0, 0);
   }
 }
+
+.correct-color {
+  border: 3px solid rgb(6, 240, 15);
+}
+
+.wrong-color {
+  border: 3px solid red;
+}
+
+.all {
+  background-color: black;
+  color: white;
+}

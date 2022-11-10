@@ -6,7 +6,13 @@ const bool = ['True', 'False'];
 class Question extends Component {
   constructor() {
     super();
+    this.state = {
+      color: 'all',
+      colorIncorret: 'all',
+    };
     this.shuffleArray = this.shuffleArray.bind(this);
+    this.changeColor = this.changeColor.bind(this);
+    this.teste = this.teste.bind(this);
   }
 
   // função https://acervolima.com/como-embaralhar-uma-matriz-usando-javascript/
@@ -18,13 +24,22 @@ class Question extends Component {
     return arr;
   }
 
+  changeColor() {
+    this.setState({ color: 'correct-color', colorIncorret: 'wrong-color' });
+  }
+
+  teste(alternative, correct, index) {
+    if (alternative === correct) {
+      return 'correct-answer';
+    }
+    return `wrong-answer-${index}`;
+  }
+
   render() {
     const { questionSelect } = this.props;
-    console.log(questionSelect);
-    const { category, question, type,
-      correct_answer: correct,
+    const { color, colorIncorret } = this.state;
+    const { category, question, type, correct_answer: correct,
       incorrect_answers: incorrect } = questionSelect;
-
     const arr = incorrect;
     arr.push(correct);
     this.shuffleArray(arr);
@@ -38,45 +53,32 @@ class Question extends Component {
 
           { type === 'boolean'
             ? bool.map((alternative, index) => (
-              alternative === correct ? (
-                <button
-                  key={ index }
-                  type="button"
-                  data-testid="correct-answer"
-                >
-                  {alternative}
-                </button>
-              )
-                : (
-                  <button
-                    key={ index }
-                    type="button"
-                    data-testid={ `wrong-answer-${index}` }
-                  >
-                    {alternative}
-                  </button>
-                )
+              <button
+                key={ index }
+                type="button"
+                name={ alternative === correct
+                  ? 'correct' : 'incorrect' }
+                data-testid={ this.teste(alternative, correct, index) }
+                onClick={ this.changeColor }
+                className={ alternative === correct
+                  ? color : colorIncorret }
+              >
+                {alternative}
+              </button>
             ))
             : (
               arr.map((alternative, index) => (
-                alternative === correct ? (
-                  <button
-                    key={ index }
-                    type="button"
-                    data-testid="correct-answer"
-                  >
-                    {alternative}
-                  </button>
-                )
-                  : (
-                    <button
-                      key={ index }
-                      type="button"
-                      data-testid={ `wrong-answer-${index}` }
-                    >
-                      {alternative}
-                    </button>
-                  )
+                <button
+                  key={ index }
+                  type="button"
+                  data-testid={ this.teste(alternative, correct, index) }
+                  onClick={ this.changeColor }
+                  className={ alternative === correct
+                    ? color : colorIncorret }
+                >
+                  {alternative}
+                </button>
+
               ))
             )}
 
