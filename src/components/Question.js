@@ -14,6 +14,7 @@ class Question extends Component {
       isDisabled: true,
       currentTime: 30,
       optionsState: false,
+      onClick: false,
     };
     this.shuffleArray = this.shuffleArray.bind(this);
     this.changeColor = this.changeColor.bind(this);
@@ -58,7 +59,9 @@ class Question extends Component {
     const { dispatch, questionSelect } = this.props;
     const { currentTime } = this.state;
     const values = { um: 1, dois: 2, tres: 3 };
-    this.setState({ color: 'correct-color', colorIncorret: 'wrong-color' });
+    this.setState({ color: 'correct-color',
+      colorIncorret: 'wrong-color',
+      onClick: true });
     const responseAnswer = target.name;
     const { difficulty } = questionSelect;
     let valueDifficult = 0;
@@ -79,8 +82,9 @@ class Question extends Component {
   }
 
   render() {
-    const { questionSelect } = this.props;
-    const { color, colorIncorret, isDisabled, currentTime, optionsState } = this.state;
+    const { questionSelect, onNext } = this.props;
+    const { color, colorIncorret, onClick,
+      isDisabled, currentTime, optionsState } = this.state;
     const { category, question, type, correct_answer: correct,
       incorrect_answers: incorrect } = questionSelect;
     const arr = incorrect;
@@ -134,6 +138,19 @@ class Question extends Component {
           )
         }
         <div>{currentTime}</div>
+        {
+          onClick
+        && (
+          <button
+            className="next-btn"
+            data-testid="btn-next"
+            onClick={ onNext }
+            type="button"
+          >
+            Next
+          </button>
+        )
+        }
       </div>
     );
   }
