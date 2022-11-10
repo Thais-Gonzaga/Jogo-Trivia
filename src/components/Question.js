@@ -12,6 +12,7 @@ class Question extends Component {
     };
     this.shuffleArray = this.shuffleArray.bind(this);
     this.changeColor = this.changeColor.bind(this);
+    this.teste = this.teste.bind(this);
   }
 
   // função https://acervolima.com/como-embaralhar-uma-matriz-usando-javascript/
@@ -25,6 +26,13 @@ class Question extends Component {
 
   changeColor() {
     this.setState({ color: 'correct-color', colorIncorret: 'wrong-color' });
+  }
+
+  teste(alternative, correct, index) {
+    if (alternative === correct) {
+      return 'correct-answer';
+    }
+    return `wrong-answer-${index}`;
   }
 
   render() {
@@ -50,8 +58,7 @@ class Question extends Component {
                 type="button"
                 name={ alternative === correct
                   ? 'correct' : 'incorrect' }
-                data-testid={ alternative === correct
-                  ? 'correct-answer' : `wrong-answer-${index}` }
+                data-testid={ this.teste(alternative, correct, index) }
                 onClick={ this.changeColor }
                 className={ alternative === correct
                   ? color : colorIncorret }
@@ -64,8 +71,7 @@ class Question extends Component {
                 <button
                   key={ index }
                   type="button"
-                  data-testid={ alternative === correct
-                    ? 'correct-answer' : `wrong-answer-${index}` }
+                  data-testid={ this.teste(alternative, correct, index) }
                   onClick={ this.changeColor }
                   className={ alternative === correct
                     ? color : colorIncorret }
