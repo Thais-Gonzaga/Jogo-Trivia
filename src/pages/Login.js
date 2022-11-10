@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import submitAction from '../redux/actions';
+import getTokenApi from '../services/getTriviaApi';
 
 class Login extends Component {
   constructor() {
@@ -32,11 +33,13 @@ class Login extends Component {
     }
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     const { gravatarEmail, name } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
     dispatch(submitAction('EMAIL-LOGIN', gravatarEmail));
     dispatch(submitAction('NAME-LOGIN', name));
+    await getTokenApi();
+    history.push('/game');
   };
 
   render() {
@@ -84,8 +87,11 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func,
-}.isRequired;
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = () => ({
 });
