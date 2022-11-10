@@ -66,8 +66,9 @@ body {
     transform: translate3d(4px, 0, 0);
   }
 }
+
 .correct-color {
- border: 3px solid rgb(6, 240, 15);
+  border: 3px solid rgb(6, 240, 15);
 }
 
 .wrong-color {
