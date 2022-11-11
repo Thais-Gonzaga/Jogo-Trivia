@@ -28,6 +28,14 @@ class Feedback extends Component {
           </button>
         </Link>
         {/* thais criu para funcionar req18 */}
+        <Link to="/">
+          <button
+            type="button"
+            data-testid="btn-play-again"
+          >
+            Play Again
+          </button>
+        </Link>
       </div>
     );
   }
