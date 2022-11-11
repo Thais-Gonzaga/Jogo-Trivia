@@ -34,9 +34,15 @@ class Game extends Component {
     const { questions } = this.props;
     this.setState((state) => ({
       questionsNumber: state.questionsNumber === questions.length - 1
-        ? state.questionsNumber : state.questionsNumber + 1,
+        ? this.pushSettings(state) : state.questionsNumber + 1,
     }));
   }
+
+  pushSettings = (state) => {
+    const { history } = this.props;
+    history.push('/feedback');
+    return state.questionsNumber;
+  };
 
   render() {
     const { questions } = this.props;
