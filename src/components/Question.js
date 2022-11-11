@@ -75,7 +75,6 @@ class Question extends Component {
     if (difficulty === 'hard') valueDifficult = values.tres;
     const dez = 10;
     const count = (dez + (currentTime * valueDifficult));
-    // console.log(target);
     if (responseAnswer === 'correct') dispatch(submitAction('SCORE', count));
   }
 
