@@ -35,7 +35,7 @@ class Question extends Component {
     const { onNext } = this.props;
     onNext();
     this.setState({
-      onClick: false, color: 'all', colorIncorret: 'all' });
+      onClick: false, color: 'all', colorIncorret: 'all', currentTime: 30 });
   }
 
   time = () => {

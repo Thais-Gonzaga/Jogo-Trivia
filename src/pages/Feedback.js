@@ -5,6 +5,22 @@ import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
+  saveScore = () => {
+    const localStorageHistorico = localStorage.getItem('ranking');
+    const historico = JSON.parse(localStorageHistorico);
+    const { score, name, imgGravatar } = this.props;
+    const data = {
+      imgGravatar,
+      name,
+      score,
+    };
+    if (historico) {
+      localStorage.setItem('ranking', JSON.stringify([...historico, data]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([data]));
+    }
+  };
+
   render() {
     const { assertions, score } = this.props;
     const THREE = 3;
@@ -22,6 +38,7 @@ class Feedback extends Component {
         <Link to="/ranking">
           <button
             type="button"
+            onClick={ this.saveScore }
             data-testid="btn-ranking"
           >
             Ranking
@@ -49,6 +66,8 @@ Feedback.propTypes = {
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  name: state.player.name,
+  imgGravatar: state.player.imgGravatar,
 });
 
 export default connect(mapStateToProps)(Feedback);
