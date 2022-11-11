@@ -30,8 +30,10 @@ class Game extends Component {
   }
 
   onNext() {
+    const { questions } = this.props;
     this.setState((state) => ({
-      questionsNumber: state.questionsNumber + 1,
+      questionsNumber: state.questionsNumber === questions.length - 1
+        ? state.questionsNumber : state.questionsNumber + 1,
     }));
   }
 

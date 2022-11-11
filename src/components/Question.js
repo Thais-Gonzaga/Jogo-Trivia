@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { string, shape, arrayOf } from 'prop-types';
 import { connect } from 'react-redux';
 import submitAction from '../redux/actions';
+import Alternatives from './Alternatives';
 
 const bool = ['True', 'False'];
 
@@ -19,6 +20,7 @@ class Question extends Component {
     this.shuffleArray = this.shuffleArray.bind(this);
     this.changeColor = this.changeColor.bind(this);
     this.teste = this.teste.bind(this);
+    this.onClick = this.onClick.bind(this);
   }
 
   componentDidMount() {
@@ -29,22 +31,25 @@ class Question extends Component {
     });
   }
 
+  onClick() {
+    const { onNext } = this.props;
+    onNext();
+    this.setState({
+      onClick: false, color: 'all', colorIncorret: 'all' });
+  }
+
   time = () => {
     const { currentTime } = this.state;
     this.setState((prevState) => ({
       currentTime: prevState.currentTime - 1,
       isDisabled: false,
     }));
-    console.log(currentTime);
     if (currentTime <= 0) {
       this.setState(() => ({
         isDisabled: true,
       }));
     }
   };
-
-  testCorrect = (alternative, correct) => (alternative === correct
-    ? 'correct' : 'incorrect');
 
   // função https://acervolima.com/como-embaralhar-uma-matriz-usando-javascript/
   shuffleArray(arr) {
@@ -82,14 +87,14 @@ class Question extends Component {
   }
 
   render() {
-    const { questionSelect, onNext } = this.props;
+    const { questionSelect } = this.props;
     const { color, colorIncorret, onClick,
       isDisabled, currentTime, optionsState } = this.state;
     const { category, question, type, correct_answer: correct,
       incorrect_answers: incorrect } = questionSelect;
     const arr = incorrect;
+    if (!incorrect.includes(correct)) incorrect.push(correct);
     if (!optionsState) {
-      arr.push(correct);
       this.shuffleArray(arr);
       this.shuffleArray(bool);
     }
@@ -98,45 +103,20 @@ class Question extends Component {
       <div>
         <h1 data-testid="question-category">{category}</h1>
         <p data-testid="question-text">{question}</p>
-        {
-          optionsState && (
-            <div className="divButtons" data-testid="answer-options">
 
-              { type === 'boolean'
-                ? bool.map((alternative, index) => (
-                  <button
-                    key={ index }
-                    type="button"
-                    name={ this.testCorrect(alternative, correct) }
-                    data-testid={ this.teste(alternative, correct, index) }
-                    onClick={ this.changeColor }
-                    disabled={ isDisabled }
-                    className={ 'divButtons' && alternative === correct
-                      ? color : colorIncorret }
-                  >
-                    {alternative}
-                  </button>
-                ))
-                : (
-                  arr.map((alternative, index) => (
-                    <button
-                      key={ index }
-                      type="button"
-                      name={ this.testCorrect(alternative, correct) }
-                      data-testid={ this.teste(alternative, correct, index) }
-                      onClick={ this.changeColor }
-                      disabled={ isDisabled }
-                      className={ 'divButtons' && alternative === correct
-                        ? color : colorIncorret }
-                    >
-                      {alternative}
-                    </button>
+        <Alternatives
+          optionsState={ optionsState }
+          color={ color }
+          colorIncorret={ colorIncorret }
+          isDisabled={ isDisabled }
+          type={ type }
+          correct={ correct }
+          changeColor={ this.changeColor }
+          arr={ arr }
+          boolArray={ bool }
+          teste={ this.teste }
+        />
 
-                  ))
-                )}
-            </div>
-          )
-        }
         <div>{currentTime}</div>
         {
           onClick
@@ -144,7 +124,7 @@ class Question extends Component {
           <button
             className="next-btn"
             data-testid="btn-next"
-            onClick={ onNext }
+            onClick={ this.onClick }
             type="button"
           >
             Next
