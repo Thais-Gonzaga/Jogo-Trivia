@@ -2,6 +2,7 @@ const getToken = 'https://opentdb.com/api_token.php?command=request';
 
 export const getTriviaApi = async (token) => {
   const API = `https://opentdb.com/api.php?amount=5&token=${token}`;
+  // da6609372a83e9db5ca490c7c725f9ed1083fd10b6964710e1292acb1e3a921c
   const response = await fetch(API);
   const json = await response.json();
 

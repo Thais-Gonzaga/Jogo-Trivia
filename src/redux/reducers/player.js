@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   score: 0,
   gravatarEmail: '',
   questions: [],
-  // options: [],
+  imgGravatar: '',
   code: 0,
 };
 
@@ -29,11 +29,22 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     };
 
   case 'SCORE':
-    console.log(state.score + payload);
     return {
       ...state,
       score: state.score + payload,
       assertions: state.assertions + 1,
+    };
+
+  case 'IMG_GRAVATAR':
+    return {
+      ...state,
+      imgGravatar: payload,
+    };
+
+  case 'RESET_SCORE':
+    return {
+      ...state,
+      score: payload,
     };
 
   default:

@@ -3,8 +3,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import submitAction from '../redux/actions';
 
 class Feedback extends Component {
+  saveScore = () => {
+    const localStorageHistorico = localStorage.getItem('ranking');
+    const historico = JSON.parse(localStorageHistorico);
+    const { score, name, imgGravatar, dispatch } = this.props;
+    const data = {
+      imgGravatar,
+      name,
+      score,
+    };
+    if (historico) {
+      localStorage.setItem('ranking', JSON.stringify([...historico, data]));
+    } else {
+      localStorage.setItem('ranking', JSON.stringify([data]));
+    }
+    dispatch(submitAction('RESET_SCORE', 0));
+  };
+
   render() {
     const { assertions, score } = this.props;
     const THREE = 3;
@@ -22,6 +40,7 @@ class Feedback extends Component {
         <Link to="/ranking">
           <button
             type="button"
+            onClick={ this.saveScore }
             data-testid="btn-ranking"
           >
             Ranking
@@ -44,11 +63,15 @@ class Feedback extends Component {
 Feedback.propTypes = {
   assertions: PropTypes.number,
   score: PropTypes.number,
+  name: PropTypes.string,
+  // imgGravatar: PropTypes.string,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  name: state.player.name,
+  imgGravatar: state.player.imgGravatar,
 });
 
 export default connect(mapStateToProps)(Feedback);
