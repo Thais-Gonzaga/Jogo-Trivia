@@ -12,11 +12,12 @@ class Header extends Component {
   };
 
   render() {
-    const { name, score, gravatarImg } = this.props;
+    const { name, score, gravatarImg, imgGravatar } = this.props;
+    this.saveImg(gravatarImg);
     return (
       <div>
         <img
-          src={ this.saveImg(gravatarImg) }
+          src={ imgGravatar }
           data-testid="header-profile-picture"
           alt="GravatarImage"
         />
@@ -45,6 +46,7 @@ const mapStateToProps = (state) => ({
   name: state.player.name,
   score: state.player.score,
   gravatarImg: state.player.gravatarEmail,
+  imgGravatar: state.player.imgGravatar,
 });
 
 export default connect(mapStateToProps)(Header);

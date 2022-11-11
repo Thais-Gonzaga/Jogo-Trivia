@@ -61,6 +61,8 @@ class Feedback extends Component {
 Feedback.propTypes = {
   assertions: PropTypes.number,
   score: PropTypes.number,
+  name: PropTypes.string,
+  // imgGravatar: PropTypes.string,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
