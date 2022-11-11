@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shape, func, number, arrayOf } from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { fetchData } from '../redux/actions';
@@ -49,6 +50,16 @@ class Game extends Component {
           questionSelect={ questions[questionsNumber] }
           onNext={ this.onNext }
         />
+        {/* thais criu para funcionar req18 */}
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+        </Link>
+        {/* thais criu para funcionar req18 */}
       </div>
     );
   }
