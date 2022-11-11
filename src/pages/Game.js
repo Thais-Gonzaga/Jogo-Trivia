@@ -11,6 +11,7 @@ class Game extends Component {
     this.state = {
       questionsNumber: 0,
     };
+    this.onNext = this.onNext.bind(this);
   }
 
   componentDidMount() {
@@ -28,9 +29,16 @@ class Game extends Component {
     }
   }
 
+  onNext() {
+    const { questions } = this.props;
+    this.setState((state) => ({
+      questionsNumber: state.questionsNumber === questions.length - 1
+        ? state.questionsNumber : state.questionsNumber + 1,
+    }));
+  }
+
   render() {
     const { questions } = this.props;
-    // console.log(questions);
     const { questionsNumber } = this.state;
     if (!questions.length) return 'carregando';
     return (
@@ -39,6 +47,7 @@ class Game extends Component {
 
         <Question
           questionSelect={ questions[questionsNumber] }
+          onNext={ this.onNext }
         />
       </div>
     );
