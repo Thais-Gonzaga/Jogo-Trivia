@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import submitAction from '../redux/actions';
 import Alternatives from './Alternatives';
 
-const bool = ['True', 'False'];
-
 class Question extends Component {
   constructor() {
     super();
@@ -17,9 +15,8 @@ class Question extends Component {
       optionsState: false,
       onClick: false,
     };
-    this.shuffleArray = this.shuffleArray.bind(this);
     this.changeColor = this.changeColor.bind(this);
-    this.teste = this.teste.bind(this);
+    // this.teste = this.teste.bind(this);
     this.onClick = this.onClick.bind(this);
   }
 
@@ -51,15 +48,6 @@ class Question extends Component {
     }
   };
 
-  // função https://acervolima.com/como-embaralhar-uma-matriz-usando-javascript/
-  shuffleArray(arr) {
-    for (let index = arr.length - 1; index > 0; index -= 1) {
-      const sort = Math.floor(Math.random() * (index + 1));
-      [arr[index], arr[sort]] = [arr[sort], arr[index]];
-    }
-    return arr;
-  }
-
   changeColor({ target }) {
     const { dispatch, questionSelect } = this.props;
     const { currentTime } = this.state;
@@ -78,25 +66,19 @@ class Question extends Component {
     if (responseAnswer === 'correct') dispatch(submitAction('SCORE', count));
   }
 
-  teste(alternative, correct, index) {
-    if (alternative === correct) {
-      return 'correct-answer';
-    }
-    return `wrong-answer-${index}`;
-  }
+  // teste(alternative, correct, index) {
+  //   if (alternative === correct) {
+  //     return 'correct-answer';
+  //   }
+  //   return `wrong-answer-${index}`;
+  // }
 
   render() {
-    const { questionSelect } = this.props;
+    const { questionSelect, alternatives, correct } = this.props;
+    const { category, question } = questionSelect;
     const { color, colorIncorret, onClick,
       isDisabled, currentTime, optionsState } = this.state;
-    const { category, question, type, correct_answer: correct,
-      incorrect_answers: incorrect } = questionSelect;
-    const arr = incorrect;
-    if (!incorrect.includes(correct)) incorrect.push(correct);
-    if (!optionsState) {
-      this.shuffleArray(arr);
-      this.shuffleArray(bool);
-    }
+    console.log(alternatives);
 
     return (
       <div>
@@ -108,12 +90,10 @@ class Question extends Component {
           color={ color }
           colorIncorret={ colorIncorret }
           isDisabled={ isDisabled }
-          type={ type }
           correct={ correct }
           changeColor={ this.changeColor }
-          arr={ arr }
-          boolArray={ bool }
-          teste={ this.teste }
+          arr={ alternatives }
+          // teste={ this.teste }
         />
 
         <div>{currentTime}</div>
@@ -145,7 +125,6 @@ Question.propTypes = {
   questionSelect: arrayOf(shape),
   category: string,
   question: string,
-  type: string,
-  correct_answer: string,
-  incorrect_answers: arrayOf(string),
+  correct: string,
+  alternatives: arrayOf(string),
 }.isRequired;

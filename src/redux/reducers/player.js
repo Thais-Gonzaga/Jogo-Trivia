@@ -4,6 +4,8 @@ const INITIAL_STATE = {
   score: 0,
   gravatarEmail: '',
   questions: [],
+  alternatives: [],
+  correct: [],
   imgGravatar: '',
   code: 0,
 };
@@ -26,6 +28,10 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       questions: payload.results,
       code: payload.response_code,
+      alternatives: payload.results.map((e) => (
+        e.incorrect_answers.includes(e.correct_answer)
+          ? e.incorrect_answers : [...e.incorrect_answers, e.correct_answer])),
+      correct: payload.results.map((e) => e.correct_answer),
     };
 
   case 'SCORE':

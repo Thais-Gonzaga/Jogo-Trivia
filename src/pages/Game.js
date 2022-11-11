@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { shape, func, number, arrayOf } from 'prop-types';
+import { shape, func, number, arrayOf, string } from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
 import Question from '../components/Question';
@@ -12,6 +12,7 @@ class Game extends Component {
       questionsNumber: 0,
     };
     this.onNext = this.onNext.bind(this);
+    this.shuffleArray = this.shuffleArray.bind(this);
   }
 
   componentDidMount() {
@@ -43,10 +44,21 @@ class Game extends Component {
     return state.questionsNumber;
   };
 
+  // função https://acervolima.com/como-embaralhar-uma-matriz-usando-javascript/
+  shuffleArray(arr) {
+    for (let index = arr.length - 1; index > 0; index -= 1) {
+      const sort = Math.floor(Math.random() * (index + 1));
+      [arr[index], arr[sort]] = [arr[sort], arr[index]];
+    }
+    return arr;
+  }
+
   render() {
-    const { questions } = this.props;
+    const { questions, alternatives, correct } = this.props;
     const { questionsNumber } = this.state;
-    if (!questions.length) return 'carregando';
+    const correctSelect = correct[questionsNumber];
+    const alternativesSelect = alternatives[questionsNumber];
+    if (!questions.length || !alternatives.length) return 'carregando';
     return (
       <div>
         <Header />
@@ -54,6 +66,8 @@ class Game extends Component {
         <Question
           questionSelect={ questions[questionsNumber] }
           onNext={ this.onNext }
+          alternatives={ this.shuffleArray(alternativesSelect) }
+          correct={ correctSelect }
         />
       </div>
     );
@@ -63,6 +77,8 @@ class Game extends Component {
 const mapStateToProps = (state) => ({
   code: state.player.code,
   questions: state.player.questions,
+  alternatives: state.player.alternatives,
+  correct: state.player.correct,
 });
 
 export default connect(mapStateToProps)(Game);
@@ -73,9 +89,13 @@ Game.propTypes = {
   }),
   dispatch: func,
   questions: arrayOf(shape),
+  alternatives: arrayOf(string),
+  correct: arrayOf(string),
   code: number,
 }.isRequired;
 
 Game.defaultProps = {
   questions: [{}],
+  alternatives: [''],
+  correct: [''],
 };
