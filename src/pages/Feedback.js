@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Header from '../components/Header';
+import submitAction from '../redux/actions';
 
 class Feedback extends Component {
   saveScore = () => {
     const localStorageHistorico = localStorage.getItem('ranking');
     const historico = JSON.parse(localStorageHistorico);
-    const { score, name, imgGravatar } = this.props;
+    const { score, name, imgGravatar, dispatch } = this.props;
     const data = {
       imgGravatar,
       name,
@@ -19,6 +20,7 @@ class Feedback extends Component {
     } else {
       localStorage.setItem('ranking', JSON.stringify([data]));
     }
+    dispatch(submitAction('RESET_SCORE', 0));
   };
 
   render() {

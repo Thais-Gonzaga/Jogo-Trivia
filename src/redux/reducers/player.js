@@ -41,6 +41,12 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       imgGravatar: payload,
     };
 
+  case 'RESET_SCORE':
+    return {
+      ...state,
+      score: payload,
+    };
+
   default:
     return state;
   }
