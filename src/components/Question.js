@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { string, shape, arrayOf } from 'prop-types';
 import { connect } from 'react-redux';
+import submitAction from '../redux/actions';
 
 const bool = ['True', 'False'];
 
@@ -41,6 +42,9 @@ class Question extends Component {
     }
   };
 
+  testCorrect = (alternative, correct) => (alternative === correct
+    ? 'correct' : 'incorrect');
+
   // função https://acervolima.com/como-embaralhar-uma-matriz-usando-javascript/
   shuffleArray(arr) {
     for (let index = arr.length - 1; index > 0; index -= 1) {
@@ -50,8 +54,21 @@ class Question extends Component {
     return arr;
   }
 
-  changeColor() {
+  changeColor({ target }) {
+    const { dispatch, questionSelect } = this.props;
+    const { currentTime } = this.state;
+    const values = { um: 1, dois: 2, tres: 3 };
     this.setState({ color: 'correct-color', colorIncorret: 'wrong-color' });
+    const responseAnswer = target.name;
+    const { difficulty } = questionSelect;
+    let valueDifficult = 0;
+    if (difficulty === 'easy') valueDifficult = values.um;
+    if (difficulty === 'medium') valueDifficult = values.dois;
+    if (difficulty === 'hard') valueDifficult = values.tres;
+    const dez = 10;
+    const count = (dez + (currentTime * valueDifficult));
+    // console.log(target);
+    if (responseAnswer === 'correct') dispatch(submitAction('SCORE', count));
   }
 
   teste(alternative, correct, index) {
@@ -83,29 +100,25 @@ class Question extends Component {
 
               { type === 'boolean'
                 ? bool.map((alternative, index) => (
-                  <>
-                    <button
-                      key={ index }
-                      type="button"
-                      name={ alternative === correct
-                        ? 'correct' : 'incorrect' }
-                      data-testid={ this.teste(alternative, correct, index) }
-                      onClick={ this.changeColor }
-                      disabled={ isDisabled }
-                      className={ 'divButtons' && alternative === correct
-                        ? color : colorIncorret }
-                    >
-                      {alternative}
-                    </button>
-                    <br />
-                    <br />
-                  </>
+                  <button
+                    key={ index }
+                    type="button"
+                    name={ this.testCorrect(alternative, correct) }
+                    data-testid={ this.teste(alternative, correct, index) }
+                    onClick={ this.changeColor }
+                    disabled={ isDisabled }
+                    className={ 'divButtons' && alternative === correct
+                      ? color : colorIncorret }
+                  >
+                    {alternative}
+                  </button>
                 ))
                 : (
                   arr.map((alternative, index) => (
                     <button
                       key={ index }
                       type="button"
+                      name={ this.testCorrect(alternative, correct) }
                       data-testid={ this.teste(alternative, correct, index) }
                       onClick={ this.changeColor }
                       disabled={ isDisabled }
