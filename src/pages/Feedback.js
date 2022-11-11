@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 
 class Feedback extends Component {
@@ -15,6 +16,16 @@ class Feedback extends Component {
             ? <p data-testid="feedback-text">Could be better...</p>
             : <p data-testid="feedback-text">Well Done!</p>)}
         </div>
+        {/* thais criu para funcionar req18 */}
+        <Link to="/ranking">
+          <button
+            type="button"
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+        </Link>
+        {/* thais criu para funcionar req18 */}
       </div>
     );
   }
