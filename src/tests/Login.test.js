@@ -7,10 +7,10 @@ const inputGravatarEmail = 'input-gravatar-email';
 const inputPlayerName = 'input-player-name';
 const btnPlay = 'btn-play';
 
-// const history ={push: () => {}}
+const history ={push: () => {}}
 describe('Testa a página de Login', () => {
   test('Se os inputs e o botão são renderizados', () => {
-    renderWithRouterAndRedux(<Login/>);
+    renderWithRouterAndRedux(<Login history={history}/>);
     const emailInput = screen.getByTestId(inputGravatarEmail);
     const player = screen.getByTestId(inputPlayerName);
     const buttonPlay = screen.getByTestId(btnPlay);
@@ -21,7 +21,7 @@ describe('Testa a página de Login', () => {
     expect(buttonPlay.disabled).toBe(true);
   });
   test('Se ao escrever nos inputs, o botão é habilitado', () => {
-    renderWithRouterAndRedux(<Login />);
+    renderWithRouterAndRedux(<Login history={history}/>);
     const emailInput = screen.getByTestId(inputGravatarEmail);
     const player = screen.getByTestId(inputPlayerName);
     const buttonPlay = screen.getByTestId(btnPlay);
@@ -34,7 +34,7 @@ describe('Testa a página de Login', () => {
   test(
     'Se após o clique do botão existe uma chave token no localStorage ',
     async () => {
-      renderWithRouterAndRedux(<Login />);
+      renderWithRouterAndRedux(<Login history={history}/>);
 
       const emailInput = screen.getByTestId(inputGravatarEmail);
       const player = screen.getByTestId(inputPlayerName);

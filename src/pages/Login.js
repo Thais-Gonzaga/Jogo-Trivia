@@ -89,13 +89,8 @@ class Login extends Component {
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
-  }),
-  dispatch: PropTypes.func,
-};
-
-Login.defaultProps = {
-  history: { push: () => {} },
-  dispatch: () => {},
+  }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = () => ({
