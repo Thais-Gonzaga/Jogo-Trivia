@@ -78,7 +78,6 @@ class Question extends Component {
     const { category, question } = questionSelect;
     const { color, colorIncorret, onClick,
       isDisabled, currentTime, optionsState } = this.state;
-    console.log(alternatives);
 
     return (
       <div>

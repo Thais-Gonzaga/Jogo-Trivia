@@ -11,7 +11,6 @@ class Alternatives extends Component {
   render() {
     const { optionsState, color,
       colorIncorret, isDisabled, correct, changeColor, arr } = this.props;
-    console.log(arr);
     return (
       <div>
         <div className="divButtons" data-testid="answer-options">
