@@ -16,7 +16,6 @@ class Question extends Component {
       onClick: false,
     };
     this.changeColor = this.changeColor.bind(this);
-    // this.teste = this.teste.bind(this);
     this.onClick = this.onClick.bind(this);
   }
 
@@ -25,6 +24,7 @@ class Question extends Component {
     setInterval(() => this.time(), ONE_SECOND);
     this.setState({
       optionsState: true,
+      isDisabled: false,
     });
   }
 
@@ -39,7 +39,6 @@ class Question extends Component {
     const { currentTime } = this.state;
     this.setState((prevState) => ({
       currentTime: prevState.currentTime - 1,
-      isDisabled: false,
     }));
     if (currentTime <= 0) {
       this.setState(() => ({
@@ -66,13 +65,6 @@ class Question extends Component {
     if (responseAnswer === 'correct') dispatch(submitAction('SCORE', count));
   }
 
-  // teste(alternative, correct, index) {
-  //   if (alternative === correct) {
-  //     return 'correct-answer';
-  //   }
-  //   return `wrong-answer-${index}`;
-  // }
-
   render() {
     const { questionSelect, alternatives, correct } = this.props;
     const { category, question } = questionSelect;
@@ -92,7 +84,6 @@ class Question extends Component {
           correct={ correct }
           changeColor={ this.changeColor }
           arr={ alternatives }
-          // teste={ this.teste }
         />
 
         <div>{currentTime}</div>
