@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import Feedback from '../pages/Feedback';
+import userEvent from '@testing-library/user-event';
+import { act } from 'react-dom/test-utils';
 
 const imgGravatarId = 'header-profile-picture';
 const namePlayerId = 'header-player-name';
@@ -55,7 +56,9 @@ describe('Testa a página de Feedback', () => {
     );
     const textFeedback = screen.getByTestId(feddbackTest);
     expect(textFeedback.textContent).toBe('Well Done!');
-    window.location.reload(true);
+    // act(() => {
+    //   global.location.reload(true);
+    // })
   });
   test('Se o o feedback com 3 ou mais acertos é: Well Done!', async () => {
     const INITIAL_STATE = {
@@ -70,10 +73,45 @@ describe('Testa a página de Feedback', () => {
       INITIAL_STATE,
       '/feedback',
     );
-    history.push('/ranking');
+    act(() => {
+      history.push('/ranking')
+    })
     const name = await screen.findByText('teste');
     expect(name).toBeInTheDocument();
-    window.location.reload(true);
+    // act(() => {
+      // global.location.reload(true);
+    // })
     expect(name).toBeInTheDocument();
+  });
+
+  test('Se os itens estão no localStorege', async () => {
+    const INITIAL_STATE = {
+      player: {
+        imgGravatar: '',
+        name: 'testeDaTata',
+        score: 50,
+      },
+    };
+    const { store } = renderWithRouterAndRedux(
+      <Feedback />,
+      INITIAL_STATE,
+      '/feedback',
+    );
+      // verifica se ta sem a chave
+    expect(localStorage.getItem('ranking')).toBeNull()
+    // aperta o botão
+    userEvent.click(screen.getByTestId("btn-ranking"))
+    // pego o que ta no localStorage
+    const save = JSON.parse(localStorage.getItem('ranking'));
+    // verifico se o tamanho do array é 1
+    expect(save).toHaveLength(1)
+    // aperta o botão
+    userEvent.click(screen.getByTestId("btn-ranking"))
+    // pego o que ta no localStorage
+    const save2 = JSON.parse(localStorage.getItem('ranking'));
+    // verifico se o tamanho do array é 1
+    expect(save2).toHaveLength(2)
+
+
   });
 });

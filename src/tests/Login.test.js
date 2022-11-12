@@ -7,9 +7,10 @@ const inputGravatarEmail = 'input-gravatar-email';
 const inputPlayerName = 'input-player-name';
 const btnPlay = 'btn-play';
 
+// const history ={push: () => {}}
 describe('Testa a página de Login', () => {
   test('Se os inputs e o botão são renderizados', () => {
-    renderWithRouterAndRedux(<Login />);
+    renderWithRouterAndRedux(<Login/>);
     const emailInput = screen.getByTestId(inputGravatarEmail);
     const player = screen.getByTestId(inputPlayerName);
     const buttonPlay = screen.getByTestId(btnPlay);
