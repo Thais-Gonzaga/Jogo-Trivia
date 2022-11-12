@@ -24,7 +24,7 @@ class Ranking extends Component {
         } return 0;
       });
       // a.score < b.score ? -1 : a.score > b.score ? 1 : 0});
-    console.log(historicoOrdem);
+    // console.log(historicoOrdem);
     this.setState({ historico: historicoOrdem });
   }
 
