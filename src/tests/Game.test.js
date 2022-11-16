@@ -86,6 +86,25 @@ const alternativesArray = questionsResponse.results
     act(() =>  {
       userEvent.click(btnNext);
     })
+
+    expect(await screen.findByTestId('correct-answer')).toBeInTheDocument()
+    const btnQuiz2 = getByTestId('correct-answer');
+    userEvent.click(btnQuiz2)
+    expect(await screen.findByTestId('btn-next')).toBeInTheDocument()
+    const btnNext2 = screen.getByRole('button', { name: 'Next' });
+    act(() =>  {
+      userEvent.click(btnNext2);
+    })
+    expect(await screen.findByTestId('correct-answer')).toBeInTheDocument()
+    const btnQuiz3 = getByTestId('correct-answer');
+    userEvent.click(btnQuiz3)
+    expect(await screen.findByTestId('btn-next')).toBeInTheDocument()
+    const btnNext3 = screen.getByRole('button', { name: 'Next' });
+    act(() =>  {
+      userEvent.click(btnNext3);
+    })
+  
+  
   });
 
 
