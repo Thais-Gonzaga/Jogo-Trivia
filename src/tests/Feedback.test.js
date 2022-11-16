@@ -59,7 +59,6 @@ describe('Testa a página de Feedback', () => {
     // act(() => {
     //   global.location.reload(true);
     // })
-
   });
   test('Se o o feedback com 3 ou mais acertos é: Well Done!', async () => {
     const INITIAL_STATE = {
@@ -74,7 +73,6 @@ describe('Testa a página de Feedback', () => {
       INITIAL_STATE,
       '/feedback',
     );
-    
     act(() => {
       history.push('/ranking')
     })
@@ -116,6 +114,4 @@ describe('Testa a página de Feedback', () => {
 
 
   });
-
-
 });
