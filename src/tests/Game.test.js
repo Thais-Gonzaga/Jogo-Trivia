@@ -63,7 +63,7 @@ const alternativesArray = questionsResponse.results
             const btnTrue = await screen.findByText('True');
           });
           
-  test('Se o ranking é mantido após o reload', async () => {
+  test('Se ao clicar na resposta e no botão next, aparece outra questão', async () => {
     global.setInterval = jest.fn()
     global.fetch = jest.fn().mockResolvedValue(Promise.resolve({ json:  () => Promise.resolve(questionsResponse), ok: true}))
     const INITIAL_STATE = {
@@ -107,7 +107,38 @@ const alternativesArray = questionsResponse.results
   
   });
 
+  test('Se ao clicar em todas as respostas, redireciona para o feedback', async () => {
+    global.setInterval = jest.fn()
+    global.fetch = jest.fn().mockResolvedValue(Promise.resolve({ json:  () => Promise.resolve(questionsResponse), ok: true}))
+    const INITIAL_STATE = {
+      player: {
+        questions: [],
+        alternatives: [],
+        code: 0,
+      },
+    };
+    const {getByTestId, history} = renderWithRouterAndRedux(
+      <Game />,
+      INITIAL_STATE,
+      '/game',
+    );
 
+    for(let index = 0; index < 5; index += 1){
+   
+      expect(await screen.findByTestId('correct-answer')).toBeInTheDocument()
+      const btnQuiz = getByTestId('correct-answer');
+      userEvent.click(btnQuiz)
+      expect(await screen.findByTestId('btn-next')).toBeInTheDocument()
+      const btnNext = screen.getByRole('button', { name: 'Next' });
+      act(() =>  {
+        userEvent.click(btnNext);
+      })
+    }
+ 
+    await waitFor(() => expect(history.location.pathname).toBe('/feedback'))
+  
+  
+  });
 
   test('Se o ranking é mantido após o reload', async () => {
     global.fetch = jest.fn().mockResolvedValue(Promise.resolve({ json:  () => Promise.resolve({...questionsResponse, response_code: 3}), ok: true}))

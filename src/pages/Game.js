@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { shape, func, number, arrayOf, string } from 'prop-types';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import { fetchData } from '../redux/actions';
@@ -10,6 +11,8 @@ class Game extends Component {
     super();
     this.state = {
       questionsNumber: 0,
+      redirectFeedback: false,
+      redirectHome: false,
     };
     this.onNext = this.onNext.bind(this);
     this.shuffleArray = this.shuffleArray.bind(this);
@@ -22,11 +25,10 @@ class Game extends Component {
 
   componentDidUpdate() {
     const { code, history } = this.props;
-
     const numb = 3;
     if (code === numb) {
-      history.push('/');
       localStorage.removeItem('token');
+      history.push('/');
     }
   }
 
@@ -39,8 +41,9 @@ class Game extends Component {
   }
 
   pushSettings = (state) => {
-    const { history } = this.props;
-    history.push('/feedback');
+    // const { history } = this.props;
+    // history.push('/feedback');
+    this.setState({ redirectFeedback: true });
     return state.questionsNumber;
   };
 
@@ -55,7 +58,9 @@ class Game extends Component {
 
   render() {
     const { questions, alternatives, correct } = this.props;
-    const { questionsNumber } = this.state;
+    const { questionsNumber, redirectFeedback, redirectHome } = this.state;
+    if (redirectFeedback) return <Redirect to="/feedback" />;
+    if (redirectHome) return <Redirect to="/" />;
     const correctSelect = correct[questionsNumber];
     const alternativesSelect = alternatives[questionsNumber];
     if (!questions.length || !alternatives.length) return 'carregando';
