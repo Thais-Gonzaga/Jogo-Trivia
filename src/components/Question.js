@@ -11,7 +11,7 @@ class Question extends Component {
       color: 'all',
       colorIncorret: 'all',
       isDisabled: true,
-      currentTime: 30,
+      // currentTime: 30,
       optionsState: false,
       onClick: false,
     };
@@ -29,27 +29,31 @@ class Question extends Component {
   }
 
   onClick() {
+    const trinta = 30;
     const { onNext } = this.props;
     onNext();
     this.setState({
-      onClick: false, color: 'all', colorIncorret: 'all', currentTime: 30 });
+      onClick: false, color: 'all', colorIncorret: 'all' });
+    const { dispatch } = this.props;
+    dispatch(submitAction('TIMER-RESET', trinta));
   }
 
   time = () => {
-    const { currentTime } = this.state;
-    this.setState((prevState) => ({
-      currentTime: prevState.currentTime - 1,
-    }));
-    if (currentTime <= 0) {
+    const { currentTime, dispatch } = this.props;
+    if (currentTime === 0) {
       this.setState(() => ({
         isDisabled: true,
+        onClick: true,
       }));
+    }
+    if (currentTime >= 1) {
+      dispatch(submitAction('TIMER', 1));
     }
   };
 
   changeColor({ target }) {
-    const { dispatch, questionSelect } = this.props;
-    const { currentTime } = this.state;
+    const { dispatch, questionSelect, currentTime } = this.props;
+    // const { currentTime } = this.state;
     const values = { um: 1, dois: 2, tres: 3 };
     this.setState({ color: 'correct-color',
       colorIncorret: 'wrong-color',
@@ -66,10 +70,10 @@ class Question extends Component {
   }
 
   render() {
-    const { questionSelect, alternatives, correct } = this.props;
+    const { questionSelect, alternatives, correct, currentTime } = this.props;
     const { category, question } = questionSelect;
     const { color, colorIncorret, onClick,
-      isDisabled, currentTime, optionsState } = this.state;
+      isDisabled, optionsState } = this.state;
 
     return (
       <div>
@@ -107,6 +111,7 @@ class Question extends Component {
 
 const mapStateToProps = ({ player }) => ({
   score: player.score,
+  currentTime: player.currentTime,
 });
 
 export default connect(mapStateToProps)(Question);

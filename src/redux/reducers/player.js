@@ -8,6 +8,7 @@ const INITIAL_STATE = {
   correct: [],
   imgGravatar: '',
   code: 0,
+  currentTime: 30,
 };
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
@@ -33,28 +34,33 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
           ? e.incorrect_answers : [...e.incorrect_answers, e.correct_answer])),
       correct: payload.results.map((e) => e.correct_answer),
     };
-
   case 'SCORE':
     return {
       ...state,
       score: state.score + payload,
       assertions: state.assertions + 1,
     };
-
   case 'IMG_GRAVATAR':
     return {
       ...state,
       imgGravatar: payload,
     };
-
   case 'RESET_SCORE':
     return {
       ...state,
       score: payload,
     };
-
-  default:
-    return state;
+  case 'TIMER':
+    return {
+      ...state,
+      currentTime: state.currentTime - payload,
+    };
+  case 'TIMER-RESET':
+    return {
+      ...state,
+      currentTime: payload,
+    };
+  default: return state;
   }
 };
 
